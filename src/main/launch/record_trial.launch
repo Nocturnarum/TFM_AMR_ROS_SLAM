@@ -1,0 +1,10 @@
+<launch>
+  <!-- Grabar un ensayo: roslaunch main record_trial.launch nombre:=S1_auto_01 -->
+  <arg name="nombre" default="ensayo"/>
+  <node pkg="rosbag" type="record" name="rosbag_trial" output="screen"
+        args="-o $(env HOME)/ensayos/$(arg nombre)
+              /odom /amcl_pose /tf /tf_static /scan
+              /cmd_vel /cmd_vel_joy /cmd_vel_slam /mode_manual
+              /move_base/goal /move_base/result /move_base_simple/goal
+              /move_base/NavfnROS/plan /data_motor /perfil_navegacion"/>
+</launch>

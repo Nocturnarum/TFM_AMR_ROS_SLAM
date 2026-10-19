@@ -1,0 +1,44 @@
+<launch>
+  <!-- NODO DEL JOYSTICK -->
+  <node pkg="joy" type="joy_node" name="joy_node">
+    <param name="dev" value="/dev/input/js0"/>
+    <param name="deadzone" value="0.1"/>
+  </node>
+
+  <node pkg="joystick" type="joystick_node" name="joystick_node"/>
+
+  <!-- NODO DE LA CINAMATICA -->
+
+  <node pkg="kinematics" type="kinematics_node" name="kinematics_node"/>
+
+  <!-- NODO DE LA ODOMETRIA -->
+
+  <node pkg="odom" type="odom_node" name="odom_node"/>
+
+  <!-- NODO DEL ROS SERIAL -->
+  <node pkg="rosserial_arduino" type="serial_node.py" name="serial_node" output="screen">
+    <param name="port" value="/dev/ttyACM0"/>
+    <param name="baud" value="57600"/>
+  </node>
+
+  <!-- NODO DEL LIDAR -->
+  <include file="$(find ldlidar_stl_ros)/launch/ld19.launch">
+    <arg name="topic_name" value="scan"/>
+    <arg name="frame_id" value="base_laser"/>
+    <arg name="port_name" value="/dev/ttyUSB0"/>
+    <arg name="port_baudrate" value="230400"/>
+  </include>
+
+  <!-- NODO PRINCIPAL -->
+  <node pkg="main" type="main_node" name="main_node" output="screen"/>
+
+  <!-- RVIZ (LD19)-->
+  <!-- node pkg="rviz" type="rviz" name="rviz" args="-d $(find ldlidar_stl_ros)/rviz/ldlidar_noetic.rviz"/-->
+  
+  <!-- Incluir URDF-->
+  <include file="$(find main)/launch/robot_model.launch"/>
+
+  <!-- Turtlesim -->
+  <!-- node pkg="turtlesim" type="turtlesim_node" name="turtlesim"/-->
+</launch>
+

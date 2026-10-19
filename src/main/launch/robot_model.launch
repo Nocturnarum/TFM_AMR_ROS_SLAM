@@ -1,0 +1,5 @@
+<launch>
+  <!-- Modelo del robot para RViz en cualquier modo (gmapping, amcl, navigation)-->
+  <param name="robot_description" textfile="$(find main)/urdf/tfm_robot.urdf"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+</launch>

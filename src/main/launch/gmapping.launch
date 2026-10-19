@@ -1,0 +1,22 @@
+<launch>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find main)/rviz/tfm_gmapping.rviz"/>
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <remap from="scan" to="/scan"/>
+    <param name="base_frame" value="base_link"/>
+    <param name="odom_frame" value="odom"/>
+    <param name="map_frame"  value="map"/>
+
+    <param name="maxUrange" value="8.0"/>      <!-- alcance útil del LD19 -->
+    <param name="maxRange"  value="12.0"/>
+    <param name="delta"     value="0.05"/>     <!-- resolución: 5 cm por celda -->
+    <param name="particles" value="30"/>
+
+    <param name="linearUpdate"  value="0.1"/>  <!-- actualiza cada 10 cm -->
+    <param name="angularUpdate" value="0.2"/>  <!-- o cada ~11° -->
+    <param name="map_update_interval" value="2.0"/>
+
+    <param name="xmin" value="-10"/> <param name="ymin" value="-10"/>
+    <param name="xmax" value="10"/>  <param name="ymax" value="10"/>
+  </node>
+</launch>

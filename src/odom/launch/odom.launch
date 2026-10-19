@@ -1,0 +1,7 @@
+<launch>
+  <!-- NODO DE LA ODOMETRIA -->
+
+  <node pkg="odom" type="odom_node" name="odom_node"/>
+
+</launch>
+

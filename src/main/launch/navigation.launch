@@ -1,0 +1,36 @@
+<launch>
+  <arg name="map_file" default="$(env HOME)/mapas/mapa_lab.yaml"/>
+
+  <!-- Mapa -->
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)"/>
+
+  <!-- Localizacion -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <param name="odom_model_type" value="diff"/>
+    <param name="base_frame_id" value="base_link"/>
+    <param name="odom_frame_id" value="odom"/>
+    <param name="global_frame_id" value="map"/>
+    <param name="min_particles" value="200"/>
+    <param name="max_particles" value="2000"/>
+    <param name="update_min_d" value="0.1"/>
+    <param name="update_min_a" value="0.2"/>
+    <param name="laser_max_range" value="12.0"/>
+  </node>
+
+  <!-- Navegacion -->
+  <node pkg="move_base" type="move_base" name="move_base" respawn="false" output="screen">
+    <rosparam file="$(find main)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find main)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find main)/config/global_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find main)/config/local_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find main)/config/dwa_local_planner_params.yaml" command="load"/>
+    <rosparam file="$(find main)/config/move_base_params.yaml" command="load"/>
+    <remap from="cmd_vel" to="/cmd_vel_slam"/>
+  </node>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find main)/rviz/tfm_navigation.rviz"/>
+
+  <!-- Home -->
+  <node pkg="main" type="home_node" name="home_node" output="screen"/>
+
+</launch>
