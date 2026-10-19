@@ -1,0 +1,29 @@
+# Perfiles del nodo adaptativo (perfil_adaptativo.cpp)
+# El inflado >= radio inscrito (0.105 + padding 0.02 = 0.125 m)
+perfiles:
+  estrecho:          
+    max_vel_x: 0.10
+    max_vel_trans: 0.10
+    max_vel_theta: 0.8
+    occdist_scale: 0.02
+    inflation_radius: 0.25
+    cost_scaling_factor: 6.0
+  amplio:            
+    max_vel_x: 0.18
+    max_vel_trans: 0.18
+    max_vel_theta: 1.0
+    occdist_scale: 0.06
+    inflation_radius: 0.30
+    cost_scaling_factor: 3.0
+
+# Deteccion de zona a partir de /scan
+ancho_estrecho: 0.40     # m
+ancho_amplio: 0.60       # m
+frontal_estrecho: 0.40   # m
+rango_min: 0.15          # m
+tiempo_min_perfil: 4.0   # s
+
+# Recuperacion de planificacion
+ratio_ruta_larga: 2.5    # ruta demasiado larga
+tiempo_forzado: 20.0     # s tras un fallo
+reintentos_max: 1        # tras ABORTED

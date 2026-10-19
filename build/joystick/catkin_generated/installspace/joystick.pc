@@ -1,0 +1,8 @@
+prefix=/home/bryan/catkin_ws/install
+
+Name: joystick
+Description: Description of joystick
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs roscpp sensor_msgs std_msgs visualization_msgs

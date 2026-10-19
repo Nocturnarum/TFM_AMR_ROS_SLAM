@@ -1,0 +1,7 @@
+<launch>
+  <!-- NODO DE LA CINAMATICA -->
+
+  <node pkg="kinematics" type="kinematics_node" name="kinematics_node"/>
+
+</launch>
+

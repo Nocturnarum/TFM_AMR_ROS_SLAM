@@ -1,0 +1,8 @@
+prefix=/home/bryan/catkin_ws/devel
+
+Name: odom
+Description: Description of odom
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

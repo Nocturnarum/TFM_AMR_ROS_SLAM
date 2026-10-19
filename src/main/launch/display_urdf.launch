@@ -1,0 +1,7 @@
+<launch>
+  <!-- Visualizar el URDF solo (sin robot): roslaunch main display_urdf.launch -->
+  <param name="robot_description" textfile="$(find main)/urdf/tfm_robot.urdf"/>
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+  <node pkg="rviz" type="rviz" name="rviz"/>
+</launch>

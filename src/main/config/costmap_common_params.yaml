@@ -1,0 +1,12 @@
+# Huella del robot (base_link en el centro). Largo 0.21 m (x), ancho 0.34 m (y)
+footprint: [[0.105, 0.17], [0.105, -0.17], [-0.105, -0.17], [-0.105, 0.17]]
+footprint_padding: 0.01
+
+obstacle_range: 2.5      # marca obstaculos hasta 2.5 m
+raytrace_range: 3.0      # limpia espacio libre hasta 3 m
+
+observation_sources: laser_scan
+laser_scan: {sensor_frame: base_laser, data_type: LaserScan, topic: /scan, marking: true, clearing: true}
+
+inflation_radius: 0.20
+cost_scaling_factor: 5.0

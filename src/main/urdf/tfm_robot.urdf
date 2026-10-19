@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!-- URDF v3 del AMR del TFM (skid-steer 4 ruedas, ROS Melodic) con medidas reales.
+     base_link en el centro de las 4 ruedas, a nivel del suelo (raíz del árbol, padre: odom).
+     Chasis real 0.20 (x) x 0.30 (y) x 0.03 m (madera + motores + batería), cara inferior a 0.015 m.
+     Ruedas r=0.0325 m, grosor 0.02 m, vía 0.32 m (ancho total 0.34 m), batalla 0.14 m (diagonal entre ruedas ~0.349 m).
+     Jetson 0.12 (x) x 0.15 (y) x 0.04 m sobre el chasis. LiDAR LD19: frame base_laser en (0.07, 0, 0.12) m. -->
+<robot name="tfm_amr">
+  <material name="gris"><color rgba="0.6 0.6 0.6 1"/></material>
+  <material name="negro"><color rgba="0.1 0.1 0.1 1"/></material>
+  <material name="azul"><color rgba="0.1 0.3 0.8 1"/></material>
+  <material name="gris_oscuro"><color rgba="0.35 0.35 0.38 1"/></material>
+
+  <link name="base_link">
+    <!-- Visual: chasis real 0.20 x 0.30 x 0.03, de z=0.015 a z=0.045 (centro z=0.030) -->
+    <visual>
+      <origin xyz="0 0 0.030" rpy="0 0 0"/>
+      <geometry><box size="0.20 0.30 0.03"/></geometry>
+      <material name="gris"/>
+    </visual>
+    <!-- Colisión: se mantiene 0.21 x 0.34 (coincide con el footprint de navegación); sin cambios -->
+    <collision>
+      <origin xyz="0 0 0.0575" rpy="0 0 0"/>
+      <geometry><box size="0.21 0.34 0.05"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Ruedas: x = +-0.07 (batalla 0.14, diagonal ~0.349), y = +-0.16 (vía 0.32), grosor 0.02. Joints fixed (sin joint_states) -->
+  <link name="wheel_lf"><visual><origin rpy="1.5708 0 0"/><geometry><cylinder radius="0.0325" length="0.02"/></geometry><material name="negro"/></visual></link>
+  <link name="wheel_lb"><visual><origin rpy="1.5708 0 0"/><geometry><cylinder radius="0.0325" length="0.02"/></geometry><material name="negro"/></visual></link>
+  <link name="wheel_rf"><visual><origin rpy="1.5708 0 0"/><geometry><cylinder radius="0.0325" length="0.02"/></geometry><material name="negro"/></visual></link>
+  <link name="wheel_rb"><visual><origin rpy="1.5708 0 0"/><geometry><cylinder radius="0.0325" length="0.02"/></geometry><material name="negro"/></visual></link>
+  <joint name="wheel_lf_joint" type="fixed"><parent link="base_link"/><child link="wheel_lf"/><origin xyz=" 0.07  0.16  0.0325"/></joint>
+  <joint name="wheel_lb_joint" type="fixed"><parent link="base_link"/><child link="wheel_lb"/><origin xyz="-0.07  0.16  0.0325"/></joint>
+  <joint name="wheel_rf_joint" type="fixed"><parent link="base_link"/><child link="wheel_rf"/><origin xyz=" 0.07 -0.16  0.0325"/></joint>
+  <joint name="wheel_rb_joint" type="fixed"><parent link="base_link"/><child link="wheel_rb"/><origin xyz="-0.07 -0.16  0.0325"/></joint>
+
+  <!-- Jetson: caja 0.12 x 0.15 x 0.04 girada 90 grados en Z (rpy 0 0 1.5708): 0.15 a lo largo de X y 0.12 a lo largo de Y.
+       Apoyada sobre el chasis (z 0.045 a 0.085). Centro en x=0.015, y=0, así que ocupa x -0.06..0.09 (dentro del chasis, x<=0.10)
+       y la base del LiDAR (x 0.0525..0.0875) apoya entera encima. Frame en el centro de la caja. -->
+  <link name="jetson">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.12 0.15 0.04"/></geometry>
+      <material name="gris_oscuro"/>
+    </visual>
+  </link>
+  <joint name="jetson_joint" type="fixed">
+    <parent link="base_link"/><child link="jetson"/>
+    <origin xyz="0.015 0 0.065" rpy="0 0 1.5708"/>
+  </joint>
+
+  <!-- LiDAR LD19: el frame base_laser NO cambia (0.07, 0, 0.12), lo usa la navegación.
+       Visuales con offset respecto al frame: base 0.035x0.035x0.02 (z 0.085-0.105) y cilindro
+       ø0.03 x 0.01 (z 0.105-0.115). El frame queda ~5 mm por encima de la parte superior del cilindro.
+       La base (x 0.0525..0.0875, y +-0.0175) apoya entera sobre la Jetson (x -0.06..0.09, y +-0.06). -->
+  <link name="base_laser">
+    <visual>
+      <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+      <geometry><box size="0.035 0.035 0.02"/></geometry>
+      <material name="negro"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.010" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="0.01"/></geometry>
+      <material name="azul"/>
+    </visual>
+  </link>
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/><child link="base_laser"/>
+    <origin xyz="0.07 0 0.12" rpy="0 0 0"/>
+  </joint>
+</robot>

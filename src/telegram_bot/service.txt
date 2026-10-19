@@ -1,0 +1,14 @@
+[Unit]
+Description= My service
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 -u iptelegram.py
+WorkingDirectory=/home/bryan/telegram_bot
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=bryan
+
+[Install]
+WantedBy=multi-user.target
