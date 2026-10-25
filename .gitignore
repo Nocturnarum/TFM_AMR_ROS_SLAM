@@ -1,0 +1,24 @@
+# Compilación de catkin
+build/
+devel/
+install/
+logs/
+.catkin_tools/
+*.pyc
+__pycache__/
+
+# Secretos (bot de Telegram): nunca al repositorio
+src/telegram_bot/data.txt
+src/telegram_bot/.env
+*.env
+
+# Datos pesados (se publican aparte, p. ej. en una Release o en Zenodo)
+*.bag
+*.bag.active
+ensayos/
+
+# Basura de sistema / editores
+desktop.ini
+.DS_Store
+*.swp
+.vscode/
